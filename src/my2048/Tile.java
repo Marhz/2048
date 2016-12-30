@@ -1,5 +1,6 @@
 package my2048;
 
+import java.awt.Color;
 public class Tile {
 	protected int value;
 	protected boolean hasMerged;
@@ -34,6 +35,18 @@ public class Tile {
 	{
 		return this.value == 0;
 	}
-
+	public int fontSize()
+	{
+		return (this.value > 1000) ? 18 : (this.value > 100) ? 20 : (this.value > 10) ? 22 : 24;
+	}
+	
+	public Color background()
+	{
+		switch(this.value)
+		{
+		case 0 :
+			
+		}
+	}
 }
 

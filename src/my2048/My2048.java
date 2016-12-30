@@ -3,9 +3,25 @@ package my2048;
 import java.util.ArrayList;
 
 public class My2048 {
+	protected int winningScore;
 	protected static int size = 4;
 	
-	Tile[][] grid = new Tile[size][size];
+	protected boolean hasWon;
+	protected boolean hasChanged;
+	protected Tile[][] grid = new Tile[size][size];
+	
+	public boolean hasChanged() {
+		return hasChanged;
+	}
+	public void setHasChanged(boolean hasChanged) {
+		this.hasChanged = hasChanged;
+	}
+	public boolean hasWon() {
+		return hasWon;
+	}
+	public void setHasWon(boolean hasWon) {
+		this.hasWon = hasWon;
+	}
 	
 	public My2048(){
 		for(int i = 0; i < size; i++)
@@ -13,11 +29,23 @@ public class My2048 {
 			for(int y = 0; y < size; y++)
 			{
 				this.grid[i][y] = new Tile();
+				if(i == 0 && y == 0)
+					this.grid[i][y].setValue(2);
+				if(i == 0 && y == 1)
+					this.grid[i][y].setValue(16);
+				if(i == 0 && y == 2)
+					this.grid[i][y].setValue(128);
+				if(i == 0 && y == 3)
+					this.grid[i][y].setValue(1024);
 			}
 		}
-		this.setNewTile();
-		this.setNewTile();
+		this.winningScore = 2048;
+		this.hasChanged = false;
+		this.hasWon = false;
+//		this.setNewTile();
+//		this.setNewTile();
 	}
+
 	public void setNewTile()
 	{
 		ArrayList<Coordinates> emptyTiles = this.getEmptyTiles();
@@ -83,20 +111,29 @@ public class My2048 {
 	{
 		for(int i = 0; i < size; i++)
 		{
-			this.grid[i] = moveLine(this.grid[i]);
+			moveLine(grid[i]);
 		}
 		this.clearMergedTiles();
-		this.setNewTile();
+		if(this.hasChanged())
+		{
+			this.setNewTile();
+			this.setHasChanged(false);
+		}
 	}
 	
 	protected Tile[] moveLine(Tile[] line)
 	{
+		Tile[] oldLine = copyLine(line);
+
 		for(int i = 1; i < size; i++)
 		{
-			line = moveTile(line, i);
+			moveTile(line, i);
 		}
+		if(!this.hasChanged() && this.compareLines(line, oldLine))
+			this.setHasChanged(true);
 		return line;
 	}
+
 	protected Tile[] moveTile(Tile[] line, int position)
 	{
 		int i = position;
@@ -109,6 +146,8 @@ public class My2048 {
 			line[i-1].setValue(line[position].getValue() * 2);
 			line[position].setValue(0);
 			line[i-1].setHasMerged(true);
+			if(line[i-1].getValue() >= this.winningScore)
+				this.setHasWon(true);
 			return line;
 		}
 		if(i != position)
@@ -118,7 +157,15 @@ public class My2048 {
 		}
 		return line;
 	}
-	
+	protected boolean compareLines(Tile[] line1, Tile[] line2)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			if(line1[i].getValue() != line2[i].getValue())
+				return true;
+		}
+		return false;
+	}
 	protected void clearMergedTiles()
 	{
 		for(int i = 0;i < size;i++)
@@ -127,20 +174,32 @@ public class My2048 {
 				this.grid[i][y].setHasMerged(false);
 		}
 	}
+	protected Tile[] copyLine(Tile[] line)
+	{
+		Tile[] newLine = new Tile[size];
+		for(int i = 0; i < size; i++)
+		{
+			newLine[i] = new Tile();
+			newLine[i].setValue(line[i].getValue());
+		}
+		return newLine;
+	}
+	protected Tile[] toSimpleArray()
+	{
+		Tile[] arrayGrid = new Tile[size*size];
+		for(int i = 0; i < (size*size); i++)
+		{
+			arrayGrid[i] = new Tile();
+			arrayGrid[i].setValue(this.grid[i/size][i%size].getValue());
+		}
+		return arrayGrid;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		My2048 game = new My2048();
-		game.output();
-		System.out.println();
-		game.moveGrid();
-		game.output();
-		System.out.println();
-		game.moveGrid();
-		game.output();
-		System.out.println();
-		game.rotate(3);
-		game.moveGrid();
-		game.rotate(1);
-		game.output();
+		Panel panel = new Panel(game);
+		
+		
+		
 	}
 }
