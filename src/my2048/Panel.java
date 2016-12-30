@@ -18,7 +18,10 @@ public class Panel{
 		this.game = game;
 		
 		this.setFrame();
-		
+		frame.setTitle("2048");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(true);
+		frame.setSize(500,400);
 	}
 	
 	protected JPanel getItems()
@@ -44,10 +47,6 @@ public class Panel{
 	
 	public JPanel setFrame()
 	{
-		frame.setTitle("2048");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(true);
-		frame.setSize(500,400);
 		panel = this.getItems();
 		frame.setContentPane(this.panel);
 		frame.setVisible(true);
