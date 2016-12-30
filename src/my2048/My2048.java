@@ -1,6 +1,5 @@
 package my2048;
 
-//import java.awt.List;
 import java.util.ArrayList;
 
 public class My2048 {
