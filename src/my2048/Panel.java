@@ -26,10 +26,13 @@ public class Panel{
 		Tile values[] = game.toSimpleArray();
 		for (int i = 0; i < (game.size*game.size); i++)
 		{
-			items[i] = new JLabel(""+values[i].getValue(),SwingConstants.CENTER);
+			items[i] = new JLabel("",SwingConstants.CENTER);
+			if(values[i].getValue() > 0)
+			items[i].setText(""+values[i].getValue());
 			items[i].setFont(new Font("Arial",1, values[i].fontSize()));
+			if(values[i].getValue() > 0)
+				items[i].setOpaque(true);
 			items[i].setBackground(values[i].background());
-			
 		}
 		for (int i = 0; i < items.length; i++)
 			itemsPanel.add(items[i]);

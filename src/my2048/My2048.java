@@ -37,6 +37,8 @@ public class My2048 {
 					this.grid[i][y].setValue(128);
 				if(i == 0 && y == 3)
 					this.grid[i][y].setValue(1024);
+				if(i == 1 && y == 2)
+					this.grid[i][y].setValue(16);
 			}
 		}
 		this.winningScore = 2048;
