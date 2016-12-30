@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 public class Panel{
 	protected My2048 game;
 	protected JFrame frame = new JFrame();
-	protected JLabel[] items = new JLabel[game.size*game.size];
+	protected JLabel[] items;
 	protected JPanel panel;
 	
 	public Panel(My2048 game)
@@ -27,6 +27,7 @@ public class Panel{
 	protected JPanel getItems()
 	{
 		JPanel itemsPanel = new JPanel();
+		items = new JLabel[game.size*game.size];
 		itemsPanel.setLayout(new GridLayout(game.size, game.size));
 		Tile values[] = game.toSimpleArray();
 		for (int i = 0; i < (game.size*game.size); i++)
@@ -55,7 +56,8 @@ public class Panel{
 		      @Override
 		      public void keyPressed(KeyEvent e) {
 		        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-		          //resetGame();
+		        	game.setStartingGrid();
+		        	setFrame();
 		        }
 //		        if (!canMove()) {
 //		          myLose = true;
@@ -66,8 +68,6 @@ public class Panel{
 		            case KeyEvent.VK_LEFT:
 		            {
 		            	game.moveGrid();
-		            	game.output();
-		            	setFrame();
 		            	break;
 		            }
 		            case KeyEvent.VK_RIGHT:
@@ -75,8 +75,6 @@ public class Panel{
 		            	game.rotate(2);
 		            	game.moveGrid();
 		            	game.rotate(2);
-		            	game.output();
-		            	setFrame();
 		            	break;
 		            }
 		            case KeyEvent.VK_DOWN:
@@ -84,8 +82,6 @@ public class Panel{
 		            	game.rotate(1);
 		            	game.moveGrid();
 		            	game.rotate(3);
-		            	game.output();
-		            	setFrame();
 		            	break;
 		            }
 		            case KeyEvent.VK_UP:
@@ -93,13 +89,12 @@ public class Panel{
 		            	game.rotate(3);
 		            	game.moveGrid();
 		            	game.rotate(1);
-		            	game.output();
-		            	setFrame();
 		            	break;
 		            }
 		          }
 //		        }
-
+//		        game.output();
+		        setFrame();
 //		        if (!myWin && !canMove()) {
 //		          myLose = true;
 //		        }
