@@ -96,14 +96,6 @@ public class My2048 {
 		{
 			line = moveTile(line, i);
 		}
-//		for(int i = 0; i < (size - 1); i++)
-//		{
-//			if(line[i].isEmpty())
-//			{
-//				line = pullNextTile(line, i);
-//			}
-//			line = tryToMerge(line, i);
-//		}
 		return line;
 	}
 	protected Tile[] moveTile(Tile[] line, int position)
@@ -115,7 +107,6 @@ public class My2048 {
 		}
 		if(i > 0 && line[position].getValue() == line[i-1].getValue() && !line[i-1].hasMerged())
 		{
-			System.out.println("yolo");
 			line[i-1].setValue(line[position].getValue() * 2);
 			line[position].setValue(0);
 			line[i-1].setHasMerged(true);
@@ -125,37 +116,6 @@ public class My2048 {
 		{
 			line[i].setValue(line[position].getValue());
 			line[position].setValue(0);
-		}
-		return line;
-	}
-	
-	protected Tile[] pullNextTile(Tile[] line, int position)
-	{
-		for(int i = (position + 1); i < size; i++)
-		{
-			if(!line[i].isEmpty())
-			{
-				line[position].setValue(line[i].getValue());
-				line[i].setValue(0);
-				return line;
-			}
-		}
-		return line;
-	}
-	
-	protected Tile[] tryToMerge(Tile[]line, int position)
-	{
-		int i = position + 1;
-		boolean hasMoved = false;
-		while(i < size && !hasMoved)
-		{
-			if(line[position].getValue() == line[i].getValue() && !line[position].isEmpty())
-			{
-				line[position].setValue((line[position].getValue() * 2));
-				line[i].setValue(0);
-				hasMoved = true;
-			}
-			i++;
 		}
 		return line;
 	}
