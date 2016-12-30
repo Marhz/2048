@@ -29,23 +29,13 @@ public class My2048 {
 			for(int y = 0; y < size; y++)
 			{
 				this.grid[i][y] = new Tile();
-				if(i == 0 && y == 0)
-					this.grid[i][y].setValue(2);
-				if(i == 0 && y == 1)
-					this.grid[i][y].setValue(16);
-				if(i == 0 && y == 2)
-					this.grid[i][y].setValue(128);
-				if(i == 0 && y == 3)
-					this.grid[i][y].setValue(1024);
-				if(i == 1 && y == 2)
-					this.grid[i][y].setValue(16);
 			}
 		}
 		this.winningScore = 2048;
 		this.hasChanged = false;
 		this.hasWon = false;
-//		this.setNewTile();
-//		this.setNewTile();
+		this.setNewTile();
+		this.setNewTile();
 	}
 
 	public void setNewTile()
@@ -200,8 +190,5 @@ public class My2048 {
 		// TODO Auto-generated method stub
 		My2048 game = new My2048();
 		Panel panel = new Panel(game);
-		
-		
-		
 	}
 }
