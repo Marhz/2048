@@ -67,8 +67,6 @@ public class Tile {
 			return Color.decode("#EDC850");
 		case 1024 :
 			return Color.decode("#EDC53F");
-		case 2048 :
-			return Color.decode("#EDC22E");
 		}
 		return Color.decode("#EDC22E");
 			

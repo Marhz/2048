@@ -48,10 +48,10 @@ public class My2048 {
 	}
 
 	public My2048() {
-		this.size = 4;
+		this.size = 3;
 		this.grid = new Tile[this.size][this.size];
 		this.setStartingGrid();
-		this.winningScore = 16;
+		this.winningScore = 20000;
 
 	}
 
@@ -218,8 +218,8 @@ public class My2048 {
 		}
 		for (int i = 0; i < size; i++) {
 			for (int y = 0; y < size; y++) {
-				if ((i < 3 && grid[i][y].getValue() == grid[i + 1][y].getValue())
-						|| ((y < 3) && grid[i][y].getValue() == grid[i][y + 1].getValue())) {
+				if ((i < size-1 && grid[i][y].getValue() == grid[i + 1][y].getValue())
+						|| ((y < size-1) && grid[i][y].getValue() == grid[i][y + 1].getValue())) {
 					return false;
 				}
 			}
