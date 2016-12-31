@@ -1,6 +1,7 @@
 package my2048;
 
 public class Coordinates {
+	
 	protected int x;
 	protected int y;
 	
@@ -27,3 +28,4 @@ public class Coordinates {
 	}
 
 }
+

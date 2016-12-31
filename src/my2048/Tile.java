@@ -2,8 +2,9 @@ package my2048;
 
 import java.awt.Color;
 public class Tile {
-	protected int value;
-	protected boolean hasMerged;
+	
+	private int value;
+	private boolean hasMerged;
 	
 	public Tile()
 	{
@@ -44,6 +45,8 @@ public class Tile {
 	{
 		switch(this.value)
 		{
+		case 0 :
+			return Color.decode("#f2f2f2");
 		case 2 :
 			return Color.decode("#EEE4DA");
 		case 4 :
