@@ -10,7 +10,7 @@ public class My2048 {
 	private boolean hasWonAndContinues;
 	private boolean hasChanged;
 	private Tile[][] grid;
-	private int score;
+	private int score
 
 	public boolean hasChanged()
 	{
