@@ -3,6 +3,9 @@ package my2048;
 import java.awt.GridLayout;
 
 import javax.swing.*;
+
+import my2048Grid.Tile;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
@@ -46,7 +49,6 @@ public class Panel {
 				items[i].setText("" + values[i].getValue());
 			items[i].setFont(new Font("Arial", 1, values[i].fontSize()));
 			items[i].setBorder(BorderFactory.createLineBorder(Color.decode("#ffffff"), 5));
-			// if(values[i].getValue() > 0)
 			items[i].setOpaque(true);
 			items[i].setBackground(values[i].background());
 		}
@@ -76,7 +78,7 @@ public class Panel {
 			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					game.setStartingGrid();
+					game.setNewGame();
 					setFrame();
 				}
 				switch (e.getKeyCode()) {
@@ -104,7 +106,7 @@ public class Panel {
 				}
 				}
 				if ((game.hasWon() && !game.hasWonAndContinues()) || game.hasLost()) {
-					endGame(game.hasWon());
+					endGame();
 				} else {
 					// game.output();
 					setFrame();
@@ -114,46 +116,40 @@ public class Panel {
 		};
 	}
 
-	private void endGame(boolean hasWon)
+	private void endGame()
 	{
-		JPanel overlay = new JPanel();
-		String text = new String(
-				hasWon ? "<html><h1>Bravo vous avez gagné!</h1>Score : " + game.getScore()
-				+ "<br/>Appuyez sur echap pour recommencer ou espace pour continuer</html>"
+		JPanel overlay = new JPanel(new GridLayout(1, 1));
+		String text = new String(!game.hasLost()
+				? "<html><h1>Bravo vous avez gagné!</h1>Score : " + game.getScore()
+						+ "<br/>Appuyez sur echap pour recommencer ou espace pour continuer.</html>"
 				: "<html><h1>Perdu!</h1>Score : " + game.getScore()
-				+ "<br/>Appuyez sur echap pour recommencer ou espace pour continuer</html>");
-		overlay.setBackground(Color.decode(hasWon ? "#0a9924" : "#11d6d2"));
+						+ "<br/>Appuyez sur echap pour recommencer.</html>");
+		overlay.setBackground(Color.decode(!game.hasLost() ? "#0a9924" : "#11d6d2"));
 		overlay.setSize(frame.getSize());
-		overlay.setLayout(new GridLayout(1, 1));
-		overlay.add(new JLabel(text,SwingConstants.CENTER));
+		overlay.add(new JLabel(text, SwingConstants.CENTER));
 		frame.setContentPane(overlay);
 		frame.repaint();
 		overlay.setFocusable(true);
 		overlay.requestFocusInWindow();
-		overlay.addKeyListener(new KeyAdapter() {
+		overlay.addKeyListener(endGameKeyAdapter());
+	}
+	
+	private KeyAdapter endGameKeyAdapter()
+	{
+		return new KeyAdapter() {
 
 			@Override
 			public void keyPressed(KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					game.setStartingGrid();
+					game.setNewGame();
 					setFrame();
-				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					game.setHasWonAndContinuers(true);
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE && !game.hasLost()) {
+					game.setHasWonAndContinues(true);
 					setFrame();
 				}
-				// if (!myWin && !canMove()) {
-				// myLose = true;
-				// }
-
 			}
-		});
+		};
 	}
-
-	public static void main(String[] args)
-	{
-		// TODO Auto-generated method stub
-		My2048 game = new My2048();
-		new Panel(game);
-	}
+	
 }

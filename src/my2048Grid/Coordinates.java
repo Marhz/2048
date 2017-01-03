@@ -1,9 +1,9 @@
-package my2048;
+package my2048Grid;
 
 public class Coordinates {
 	
-	protected int x;
-	protected int y;
+	private int x;
+	private int y;
 	
 	public Coordinates(int x,int y)
 	{

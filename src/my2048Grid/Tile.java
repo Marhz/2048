@@ -1,4 +1,4 @@
-package my2048;
+package my2048Grid;
 
 import java.awt.Color;
 public class Tile {
@@ -12,6 +12,11 @@ public class Tile {
 		this.hasMerged = false;
 	}
 	
+	public Tile(int value)
+	{
+		this.value = value;
+		this.hasMerged = false;
+	}
 	public boolean hasMerged()
 	{
 		return this.hasMerged;
@@ -67,8 +72,6 @@ public class Tile {
 			return Color.decode("#EDC850");
 		case 1024 :
 			return Color.decode("#EDC53F");
-		case 2048 :
-			return Color.decode("#EDC22E");
 		}
 		return Color.decode("#EDC22E");
 			
