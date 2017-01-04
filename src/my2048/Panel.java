@@ -120,7 +120,7 @@ public class Panel {
 	{
 		JPanel overlay = new JPanel(new GridLayout(1, 1));
 		String text = new String(!game.hasLost()
-				? "<html><h1>Bravo vous avez gagné!</h1>Score : " + game.getScore()
+				? "<html><h1>Bravo vous avez gagnÃ©!</h1>Score : " + game.getScore()
 						+ "<br/>Appuyez sur echap pour recommencer ou espace pour continuer.</html>"
 				: "<html><h1>Perdu!</h1>Score : " + game.getScore()
 						+ "<br/>Appuyez sur echap pour recommencer.</html>");
