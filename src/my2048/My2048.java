@@ -136,6 +136,6 @@ public class My2048 extends Grid{
 	
 	public static void main(String[] args)
 	{
-		new My2048(6,2048);
+		new My2048();
 	}
 }
