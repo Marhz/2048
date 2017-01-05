@@ -6,10 +6,11 @@ import java.util.ArrayList;
 public class Grid {
 	protected Tile[][] grid;
 	public final int size;
-	protected boolean hasChanged;
+	private boolean hasChanged;
 	
 	protected Grid(int size){
 		this.size = size;
+		this.grid = new Tile[this.size][this.size];
 	}
 	
 	protected boolean hasChanged()
@@ -70,7 +71,7 @@ public class Grid {
 		this.setNewTile();
 	}
 	
-	protected boolean compareLines(Tile[] line1, Tile[] line2)
+	private boolean compareLines(Tile[] line1, Tile[] line2)
 	{
 		for (int i = 0; i < this.size; i++) {
 			if (line1[i].getValue() != line2[i].getValue())
@@ -87,7 +88,7 @@ public class Grid {
 		}
 	}
 
-	protected Tile[] copyLine(Tile[] line)
+	private Tile[] copyLine(Tile[] line)
 	{
 		Tile[] newLine = new Tile[size];
 		for (int i = 0; i < size; i++) {
@@ -105,12 +106,49 @@ public class Grid {
 		this.grid = newGrid;
 	}
 
-	protected Tile[] getLine(int line)
+	private Tile[] getLine(int line)
 	{
 		Tile[] newLine = new Tile[this.size];
 		for (int i = 0; i < this.size; i++) {
 			newLine[i] = this.grid[(this.size - 1) - i][line];
 		}
 		return newLine;
+	}
+	
+	protected int[] moveLine(Tile[] line)
+	{
+		Tile[] oldLine = copyLine(line);
+		int score = 0, maxValue = 0, value = 0;
+		
+		for (int i = 1; i < this.size; i++) {
+			if(line[i].getValue() > 0){
+				value = moveTile(line, i);
+				score += value;
+				if (value > maxValue) maxValue = value;
+				
+			}
+		}
+		if (!this.hasChanged() && this.compareLines(line, oldLine))
+			this.setHasChanged(true);
+		return new int[]{score, maxValue};
+	}
+
+	private int moveTile(Tile[] line, int position)
+	{
+		int i = position;
+		while (i > 0 && line[i - 1].isEmpty()) {
+			i--;
+		}
+		if (i > 0 && line[position].getValue() == line[i - 1].getValue() && !line[i - 1].hasMerged()) {
+			line[i - 1].setValue(line[position].getValue() * 2);
+			line[position].setValue(0);
+			line[i - 1].setHasMerged(true);
+			return line[i - 1].getValue();
+		}
+		if (i != position) {
+			line[i].setValue(line[position].getValue());
+			line[position].setValue(0);
+		}
+		return 0;
 	}
 }

@@ -77,11 +77,11 @@ public class Panel {
 			@Override
 			public void keyPressed(KeyEvent e)
 			{
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					game.setNewGame();
-					setFrame();
-				}
 				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ESCAPE: {
+					game.setNewGame();
+					break;
+				}
 				case KeyEvent.VK_LEFT: {
 					game.moveGrid();
 					break;
@@ -119,11 +119,11 @@ public class Panel {
 	private void endGame()
 	{
 		JPanel overlay = new JPanel(new GridLayout(1, 1));
-		String text = new String(!game.hasLost()
-				? "<html><h1>Bravo vous avez gagné!</h1>Score : " + game.getScore()
-						+ "<br/>Appuyez sur echap pour recommencer ou espace pour continuer.</html>"
+		String text = new String(
+				!game.hasLost() ? "<html><h1>Bravo vous avez gagné!</h1>Score : " + game.getScore()
+				+ "<br/>Appuyez sur echap pour recommencer ou espace pour continuer.</html>"
 				: "<html><h1>Perdu!</h1>Score : " + game.getScore()
-						+ "<br/>Appuyez sur echap pour recommencer.</html>");
+				+ "<br/>Appuyez sur echap pour recommencer.</html>");
 		overlay.setBackground(Color.decode(!game.hasLost() ? "#0a9924" : "#11d6d2"));
 		overlay.setSize(frame.getSize());
 		overlay.add(new JLabel(text, SwingConstants.CENTER));

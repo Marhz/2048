@@ -15,11 +15,6 @@ public class My2048 extends Grid{
 		return hasWon;
 	}
 
-	public void setHasWon(boolean hasWon)
-	{
-		this.hasWon = hasWon;
-	}
-
 	public boolean hasWonAndContinues()
 	{
 		return hasWonAndContinues;
@@ -37,7 +32,6 @@ public class My2048 extends Grid{
 	
 	public My2048() {
 		super(4);
-		this.grid = new Tile[this.size][this.size];
 		this.setStartingGrid();
 		this.winningScore = 2048;
 		new Panel(this);
@@ -63,7 +57,7 @@ public class My2048 extends Grid{
 
 	public boolean hasLost()
 	{
-		if (getEmptyTiles().size() > 0) {
+		if ((hasWon && !hasWonAndContinues) || super.getEmptyTiles().size() > 0) {
 			return false;
 		}
 		for (int i = 0; i < size; i++) {
@@ -90,48 +84,19 @@ public class My2048 extends Grid{
 
 	public void moveGrid()
 	{
+		int[] results = new int[2];
+		
 		for (int i = 0; i < this.size; i++) {
-			moveLine(grid[i]);
+			results = super.moveLine(grid[i]);
+			this.score += results[0];
+			if(results[1] >= this.winningScore) this.hasWon = true;
 		}
+		System.out.println();
 		this.clearMergedTiles();
-		if (this.hasChanged()) {
-			this.setNewTile();
-			this.setHasChanged(false);
+		if (super.hasChanged()) {
+			super.setNewTile();
+			super.setHasChanged(false);
 		}
-	}
-
-	private Tile[] moveLine(Tile[] line)
-	{
-		Tile[] oldLine = copyLine(line);
-
-		for (int i = 1; i < this.size; i++) {
-			moveTile(line, i);
-		}
-		if (!this.hasChanged() && this.compareLines(line, oldLine))
-			this.setHasChanged(true);
-		return line;
-	}
-
-	private Tile[] moveTile(Tile[] line, int position)
-	{
-		int i = position;
-		while (i > 0 && line[i - 1].isEmpty()) {
-			i--;
-		}
-		if (i > 0 && line[position].getValue() == line[i - 1].getValue() && !line[i - 1].hasMerged()) {
-			line[i - 1].setValue(line[position].getValue() * 2);
-			line[position].setValue(0);
-			line[i - 1].setHasMerged(true);
-			this.score += line[i - 1].getValue();
-			if (line[i - 1].getValue() >= this.winningScore)
-				this.setHasWon(true);
-			return line;
-		}
-		if (i != position) {
-			line[i].setValue(line[position].getValue());
-			line[position].setValue(0);
-		}
-		return line;
 	}
 	
 	public static void main(String[] args)
